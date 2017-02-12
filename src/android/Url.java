@@ -12,12 +12,14 @@ import org.apache.cordova.CordovaResourceApi;
 public class Url extends CordovaPlugin {
 
     private static final String UnifaceScheme = "uniface-app";
+    private static final String UnifaceServer = "-uniface-app-";
 
     // Should we allow the request
     @Override
     public Boolean shouldAllowRequest(String url) {
         LOG.d("Url", "shouldAllowRequest: " + url);
-        if(UnifaceScheme.equals(Uri.parse(url).getScheme()) ){
+        Uri uri = Uri.parse(url);
+        if(UnifaceScheme.equals(uri.getScheme()) || UnifaceServer.equals(uri.getAuthority()) ){
             return true;
         }
 
@@ -28,7 +30,8 @@ public class Url extends CordovaPlugin {
     @Override
     public Boolean shouldAllowBridgeAccess(String url){
         LOG.d("Url", "shouldAllowBridgeAccess: " + url);
-        if(UnifaceScheme.equals( Uri.parse(url).getScheme()) ){
+        Uri uri = Uri.parse(url);
+        if(UnifaceScheme.equals(uri.getScheme()) || UnifaceServer.equals(uri.getAuthority()) ){
             return true;
         }
 
@@ -39,7 +42,8 @@ public class Url extends CordovaPlugin {
     @Override
     public Boolean shouldAllowNavigation(String url) {
         LOG.d("Url", "shouldInterceptRequest: " + url);
-        if(UnifaceScheme.equals( Uri.parse(url).getScheme()) ){
+        Uri uri = Uri.parse(url);
+        if(UnifaceScheme.equals(uri.getScheme()) || UnifaceServer.equals(uri.getAuthority()) ){
             return true;
         }
 
@@ -47,7 +51,7 @@ public class Url extends CordovaPlugin {
     }
 
     /**
-     * The input should be uniface-app://{/}xxxxxxxx
+     * The input should be uniface-app://{/}xxxxxxxx of {something}://-uniface-app-/file
      * This will upfate this to  file:///android_asset/www/xxxxxxxx
      * once converted it will be packaged up so CordovaResourceApi.OpenForReadResult to open as an standard request
      */
@@ -55,11 +59,10 @@ public class Url extends CordovaPlugin {
     public Uri remapUri(Uri uri) {
         LOG.d("Url", "remapUri: " + uri);
 
-        if (UnifaceScheme.equals(uri.getScheme())) {
-
+        if(UnifaceScheme.equals(uri.getScheme()) || UnifaceServer.equals(uri.getAuthority()) ){
             // We need to deal with both incorrect and correct schema definitions
             // as Uniface has if incorrectly defined (uniface-app:// rather than uniface-app:///)
-            if ( !uri.toString().startsWith(UnifaceScheme + ":///")) {
+            if ( !uri.toString().startsWith(UnifaceScheme + ":///") && UnifaceScheme.equals(uri.getScheme())) {
                 uri = Uri.parse(uri.toString().replace(UnifaceScheme + "://", UnifaceScheme + ":///"));
             }
 
@@ -82,7 +85,8 @@ public class Url extends CordovaPlugin {
 
         try {
             CordovaResourceApi resourceApi = webView.getResourceApi();
-            return resourceApi.openForRead(fromPluginUri(uri), true);
+            Uri mappedUri = fromPluginUri(uri);
+            return resourceApi.openForRead(mappedUri, true);
         }
         catch (FileNotFoundException e) {
             throw new FileNotFoundException("URI not supported by CordovaResourceApi: " + uri);

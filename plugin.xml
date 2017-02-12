@@ -8,15 +8,23 @@
   <engines>
     <engine name="cordova" version=">=3.4.0"/>
   </engines>
-
   <platform name="android">
-
-    <config-file target="res/xml/config.xml" parent="/*">
-      <feature name="Url">
-        <param name="android-package" value="com.uniface.url.Url"/>
-        <param name="onload" value="true" />
-      </feature>
-    </config-file>
-    <source-file src="src/com/uniface/url/Url.java" target-dir="src/com/uniface/url/"/>
+      <config-file target="res/xml/config.xml" parent="/*">
+          <feature name="Url">
+              <param name="android-package" value="com.uniface.url.Url"/>
+              <param name="onload" value="true" />
+          </feature>
+      </config-file>
+      <source-file src="src/android/Url.java" target-dir="src/com/uniface/url/"/>
+  </platform>
+  <platform name="ios">
+      <config-file target="config.xml" parent="/*">
+          <feature name="Url">
+              <param name="ios-package" value="CDVUrl"/>
+              <param name="onload" value="true"/>
+          </feature>
+      </config-file>
+      <source-file src="src/ios/CDVUrl.h"/>
+      <source-file src="src/ios/CDVUrl.m"/>
   </platform>
 </plugin>
