@@ -74,9 +74,12 @@ NSString* const kUnifaceServer = @"-uniface-app-";
         if ([[url host] length] == 0) {
             // Correctly formed URL uniface-app:///filename
             filePath = [url path];
-        } else {
+        } else if ([[url path] length] == 0){
             // Badly formed URL uniface-app://filename
             filePath = [url host];
+        } else {
+            // Badly formed URL uniface-app://filename/deeper_path
+            filePath = [NSString stringWithFormat: @"%@/%@", [url host], [url path]];
         }
     }
     
