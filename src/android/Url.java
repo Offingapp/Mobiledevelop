@@ -51,8 +51,8 @@ public class Url extends CordovaPlugin {
     }
 
     /**
-     * The input should be uniface-app://{/}xxxxxxxx of {something}://-uniface-app-/file
-     * This will upfate this to  file:///android_asset/www/xxxxxxxx
+     * The input should be uniface-app://{/}something of {something}://-uniface-app-/something
+     * This will upfate this to  file:///android_asset/www/something
      * once converted it will be packaged up so CordovaResourceApi.OpenForReadResult to open as an standard request
      */
     @Override
@@ -71,10 +71,10 @@ public class Url extends CordovaPlugin {
         return null;
     }
 
-    /**
+    /*
      * Opens a stream to the given URI, also providing the MIME type & length.
      * @return Never returns null.
-     * @throws Throws an InvalidArgumentException for relative URIs. Relative URIs should be
+     * @throws InvalidArgumentException for relative URIs. Relative URIs should be
      *     resolved before being passed into this function.
      * @throws Throws an IOException if the URI cannot be opened.
      * @throws Throws an IllegalStateException if called on a foreground thread and skipThreadCheck is false.
@@ -90,6 +90,12 @@ public class Url extends CordovaPlugin {
         }
         catch (FileNotFoundException e) {
             throw new FileNotFoundException("URI not supported by CordovaResourceApi: " + uri);
+        }
+        catch (IOException e) {
+            throw new IOException("URI not supported by CordovaResourceApi: " + uri);
+        }
+        catch (IllegalStateException e) {
+            throw new IllegalStateException("URI not supported by CordovaResourceApi: " + uri);
         }
     }
 }
