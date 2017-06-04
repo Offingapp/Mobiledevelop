@@ -1,0 +1,31 @@
+{
+    "name": "ordova-plugin-uniface-url",
+    "version": "2.0.0",
+    "description": "Cordova plugin for interpreting URLs",
+    "cordova": {
+        "id": "cordova-plugin-uniface-url",
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://bitbucket.org/unifacemobile/com-uniface-url"
+    },
+    "homepage": "https://bitbucket.org/unifacemobile/com-uniface-url",
+    "keywords": [
+        "uniface",
+        "mobile",
+        "app",
+        "service",
+        "api",
+        "apps",
+        "ecosystem:cordova",
+        "cordova",
+        "cordova-android",
+        "cordova-ios"
+    ],
+    "author": "Uniface",
+    "license": "Apache-2.0"
+}
