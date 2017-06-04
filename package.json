@@ -1,9 +1,9 @@
 {
-    "name": "ordova-plugin-uniface-url",
+    "name": "com.uniface.Url",
     "version": "2.0.0",
     "description": "Cordova plugin for interpreting URLs",
     "cordova": {
-        "id": "cordova-plugin-uniface-url",
+        "id": "com.uniface.Url",
         "platforms": [
             "android",
             "ios"
@@ -17,11 +17,6 @@
     "keywords": [
         "uniface",
         "mobile",
-        "app",
-        "service",
-        "api",
-        "apps",
-        "ecosystem:cordova",
         "cordova",
         "cordova-android",
         "cordova-ios"
